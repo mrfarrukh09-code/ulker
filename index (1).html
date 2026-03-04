@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ülkər — 8 Mart 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --red: #c8102e;
+  --red-bright: #e8192e;
+  --red-soft: #f03050;
+  --red-light: #ffd6d6;
+  --white: #ffffff;
+  --off-white: #fff8f8;
+  --dark: #1a0608;
+}
+
+body {
+  background: var(--red);
+  font-family: 'Share Tech Mono', monospace;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── BACKGROUND ── */
+.bg {
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 70% at 50% 30%, rgba(255,255,255,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 80%, rgba(180,0,20,0.6) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 10% 90%, rgba(200,10,30,0.5) 0%, transparent 50%);
+  background-color: var(--red);
+}
+
+/* ── GRID ── */
+.grid {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ── STARS / SPARKLES ── */
+.stars { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.08; }
+  50% { opacity: 0.5; }
+}
+
+/* ── PETALS ── */
+.petals { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+.petal {
+  position: absolute;
+  top: -30px;
+  animation: fall linear infinite;
+  filter: drop-shadow(0 0 3px rgba(255,255,255,0.4));
+}
+@keyframes fall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 0.7; }
+  100% { transform: translateY(110vh) translateX(30px) rotate(500deg); opacity: 0; }
+}
+
+/* ── SCENE ── */
+.scene {
+  position: relative; z-index: 10;
+  width: 100vw; height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── CARD ── */
+.card {
+  position: relative;
+  width: 506px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(200,16,46,0.2);
+  border-radius: 3px;
+  padding: 44px 42px 38px;
+  text-align: center;
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,0.15),
+    0 20px 80px rgba(150,0,20,0.4),
+    0 4px 20px rgba(0,0,0,0.2);
+  opacity: 0;
+  animation: card-in 1.4s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(40px) scale(0.97); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+/* corner accents */
+.card::before, .card::after,
+.card-inner::before, .card-inner::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: var(--red);
+  border-style: solid;
+}
+.card::before  { top: 10px; left: 10px;  border-width: 2px 0 0 2px; }
+.card::after   { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+.card-inner::before { bottom: 10px; left: 10px;  border-width: 0 0 2px 2px; }
+.card-inner::after  { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+/* ── TERMINAL BAR ── */
+.terminal-bar {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: slide-up 0.7s ease forwards 1.4s;
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-r { background: #ff3b30; box-shadow: 0 0 5px #ff3b30; }
+.dot-y { background: #ff9500; box-shadow: 0 0 5px #ff9500; }
+.dot-g { background: #34c759; box-shadow: 0 0 5px #34c759; }
+.t-label {
+  font-size: 0.6rem; letter-spacing: 3px;
+  color: rgba(100,0,10,0.25);
+  margin-left: 6px; text-transform: uppercase;
+}
+
+/* ── DATE ── */
+.date {
+  font-size: 0.62rem; letter-spacing: 7px;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: slide-up 0.7s ease forwards 1.7s;
+}
+
+/* ── EMOJI ROW ── */
+.emoji-row {
+  font-size: 1.76rem;
+  letter-spacing: 5px;
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: bloom 1s cubic-bezier(0.34,1.56,0.64,1) forwards 1.9s;
+  filter: drop-shadow(0 2px 8px rgba(200,16,46,0.3));
+}
+@keyframes bloom {
+  from { opacity: 0; transform: scale(0.4) rotate(-10deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+/* ── NAME ── */
+.name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4.4rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--red);
+  line-height: 1;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 20px rgba(200,16,46,0.2);
+  opacity: 0;
+  animation: name-in 1.2s ease forwards 2.2s;
+}
+@keyframes name-in {
+  from { opacity: 0; letter-spacing: 14px; filter: blur(5px); }
+  to   { opacity: 1; letter-spacing: 3px;  filter: blur(0); }
+}
+
+/* ── DIVIDER ── */
+.divider {
+  display: flex; align-items: center; gap: 10px;
+  margin: 18px 0;
+  opacity: 0;
+  animation: slide-up 0.7s ease forwards 2.6s;
+}
+.divider-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,16,46,0.3), transparent);
+}
+.divider-dot { color: var(--red); font-size: 0.4rem; }
+
+/* ── MESSAGE ── */
+.message {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: rgba(30,5,8,0.65);
+  line-height: 1.9;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: slide-up 0.8s ease forwards 2.9s;
+}
+.message strong {
+  color: var(--red);
+  font-weight: 600;
+}
+
+/* ── CODE BLOCK ── */
+.code {
+  background: #fff0f0;
+  border: 1px solid rgba(200,16,46,0.15);
+  border-left: 3px solid var(--red);
+  border-radius: 2px;
+  padding: 16px 18px;
+  text-align: left;
+  font-size: 0.79rem;
+  line-height: 2;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: slide-up 0.8s ease forwards 3.3s;
+  position: relative;
+}
+.code::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--red), transparent);
+}
+.ck { color: #c8102e; }
+.cv { color: #a00020; }
+.cs { color: #d63050; }
+.cm { color: rgba(100,20,30,0.3); font-style: italic; }
+.cn { color: #8b0010; }
+.cm-farrux {
+  font-style: italic;
+  background: linear-gradient(135deg, #7b5ea7, #4f8fd4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+.blink { animation: blink 1s step-end infinite; color: var(--red); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: slide-up 0.8s ease forwards 3.7s;
+}
+.progress-label {
+  display: flex; justify-content: space-between;
+  font-size: 0.6rem; letter-spacing: 2px;
+  color: rgba(100,20,30,0.4);
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+.progress-track {
+  height: 4px;
+  background: rgba(200,16,46,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #f07080, var(--red-bright));
+  border-radius: 2px;
+  width: 0;
+  animation: fill-bar 2.2s cubic-bezier(0.4,0,0.2,1) forwards 4.2s;
+  box-shadow: 0 0 8px rgba(200,16,46,0.4);
+}
+@keyframes fill-bar { to { width: 100%; } }
+
+/* ── FOOTER ── */
+.footer {
+  font-size: 0.64rem; letter-spacing: 4px;
+  color: rgba(150,20,30,0.3);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: slide-up 0.7s ease forwards 4.1s;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── PARTICLES ── */
+.particles { position: fixed; inset: 0; z-index: 3; pointer-events: none; }
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  animation: float-up ease-in-out infinite;
+}
+@keyframes float-up {
+  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  20%  { opacity: 0.7; }
+  80%  { opacity: 0.3; }
+  100% { transform: translateY(-100px) scale(0); opacity: 0; }
+}
+
+/* ── CURSOR ── */
+.cursor {
+  position: fixed; z-index: 9999;
+  width: 10px; height: 10px;
+  background: white;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 10px white, 0 0 20px rgba(255,255,255,0.5);
+}
+
+/* ── PASSWORD SCREEN ── */
+.lock-screen {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.lock-bg {
+  position: absolute; inset: 0;
+  background: var(--red);
+}
+.lock-bg-glow {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,255,255,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 85% 85%, rgba(150,0,20,0.7) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(180,0,30,0.5) 0%, transparent 50%);
+  animation: bg-breathe 6s ease-in-out infinite;
+}
+@keyframes bg-breathe {
+  0%,100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+/* floating bg roses */
+.lock-rose {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.12;
+  animation: drift ease-in-out infinite;
+  pointer-events: none;
+  filter: blur(0.5px);
+}
+@keyframes drift {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(12deg); }
+}
+
+/* grid on lock */
+.lock-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ── GREETING LAYER ── */
+.greet-layer {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.greet-salam {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 8px;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: greet-in 0.8s ease forwards 0.4s;
+}
+.greet-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem;
+  font-weight: 300;
+  font-style: italic;
+  color: white;
+  line-height: 1;
+  letter-spacing: 4px;
+  text-shadow:
+    0 0 30px rgba(255,255,255,0.5),
+    0 0 80px rgba(255,200,200,0.3);
+  opacity: 0;
+  animation: name-wave 1.2s cubic-bezier(0.16,1,0.3,1) forwards 0.9s;
+}
+.greet-emojis {
+  font-size: 1.5rem;
+  letter-spacing: 6px;
+  margin-top: 12px;
+  opacity: 0;
+  animation: greet-in 0.8s ease forwards 1.6s;
+}
+.greet-line {
+  width: 1px;
+  height: 0;
+  background: rgba(255,255,255,0.35);
+  margin: 20px auto 0;
+  animation: line-grow 0.6s ease forwards 2.2s;
+}
+@keyframes greet-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes name-wave {
+  from { opacity: 0; letter-spacing: 18px; filter: blur(8px); }
+  to   { opacity: 1; letter-spacing: 4px;  filter: blur(0); }
+}
+@keyframes line-grow {
+  to { height: 50px; }
+}
+
+/* ── LOCK BOX ── */
+.lock-box {
+  position: relative; z-index: 6;
+  background: rgba(255,255,255,0.97);
+  border: 1px solid rgba(200,16,46,0.15);
+  border-radius: 3px;
+  padding: 40px 40px 34px;
+  text-align: center;
+  width: 380px;
+  box-shadow:
+    0 0 0 8px rgba(255,255,255,0.12),
+    0 30px 100px rgba(120,0,20,0.5),
+    0 4px 20px rgba(0,0,0,0.15);
+  opacity: 0;
+  animation: box-rise 1s cubic-bezier(0.16,1,0.3,1) forwards 7.6s;
+  margin-top: 70px;
+}
+@keyframes box-rise {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+.lock-box::before, .lock-box::after {
+  content:''; position:absolute;
+  width:18px; height:18px;
+  border-color:var(--red); border-style:solid;
+}
+.lock-box::before { top:10px; left:10px;  border-width:2px 0 0 2px; }
+.lock-box::after  { top:10px; right:10px; border-width:2px 2px 0 0; }
+
+.lock-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 10px;
+  animation: icon-pulse 2s ease-in-out infinite 3.8s;
+}
+@keyframes icon-pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.12) rotate(-5deg); }
+}
+.lock-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--red);
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+.lock-sub {
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  color: rgba(100,20,30,0.35);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.lock-input-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+.lock-input-wrap::before {
+  content: '🔑';
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.5;
+}
+.lock-input {
+  width: 100%;
+  background: #fff2f2;
+  border: 1px solid rgba(200,16,46,0.2);
+  border-bottom: 2px solid var(--red);
+  border-radius: 2px;
+  padding: 12px 14px 12px 36px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.88rem;
+  color: var(--red);
+  outline: none;
+  letter-spacing: 3px;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.lock-input::placeholder { color: rgba(200,16,46,0.25); letter-spacing: 1px; }
+.lock-input:focus {
+  background: #fff;
+  box-shadow: 0 4px 16px rgba(200,16,46,0.12);
+}
+.lock-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--red), var(--red-bright));
+  color: white;
+  border: none;
+  border-radius: 2px;
+  padding: 12px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 16px rgba(200,16,46,0.35);
+  position: relative;
+  overflow: hidden;
+}
+.lock-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+}
+.lock-btn:hover  { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(200,16,46,0.45); }
+.lock-btn:active { transform: scale(0.98); }
+.lock-error {
+  font-size: 0.62rem;
+  color: var(--red);
+  letter-spacing: 2px;
+  margin-top: 10px;
+  min-height: 16px;
+}
+.lock-error.shake { animation: shake 0.4s ease; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-7px)}
+  40%{transform:translateX(7px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+
+/* success burst */
+.lock-screen.success {
+  animation: success-burst 0.6s ease forwards;
+}
+@keyframes success-burst {
+  0%   { opacity: 1; }
+  40%  { opacity: 1; filter: brightness(1.4); }
+  100% { opacity: 0; pointer-events: none; }
+}
+.lock-screen.fade-out {
+  animation: fade-away 1s ease forwards;
+}
+@keyframes fade-away {
+  to { opacity: 0; pointer-events: none; }
+}
+
+/* ── CONFETTI ── */
+.confetti-container {
+  position: fixed; inset: 0; z-index: 200;
+  pointer-events: none; overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  width: 10px; height: 10px;
+  opacity: 0;
+  animation: confetti-fall linear forwards;
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-bg"></div>
+  <div class="lock-bg-glow"></div>
+  <div class="lock-grid"></div>
+
+  <!-- floating bg roses -->
+  <span class="lock-rose" style="top:8%;left:6%;animation-duration:5s;animation-delay:0s;">🌹</span>
+  <span class="lock-rose" style="top:15%;right:8%;animation-duration:7s;animation-delay:1s;font-size:1rem;">🌸</span>
+  <span class="lock-rose" style="bottom:12%;left:10%;animation-duration:6s;animation-delay:2s;">🌷</span>
+  <span class="lock-rose" style="bottom:18%;right:6%;animation-duration:5.5s;animation-delay:0.5s;font-size:1rem;">🌹</span>
+  <span class="lock-rose" style="top:45%;left:3%;animation-duration:8s;animation-delay:1.5s;font-size:0.9rem;">🌸</span>
+  <span class="lock-rose" style="top:40%;right:4%;animation-duration:6.5s;animation-delay:3s;font-size:0.9rem;">❤️</span>
+  <span class="lock-rose" style="top:70%;left:50%;animation-duration:7s;animation-delay:2s;font-size:0.8rem;">🌷</span>
+
+  <!-- greeting -->
+  <div class="greet-layer">
+    <div class="greet-salam">Salam,</div>
+    <div class="greet-name">Ülkər</div>
+    <div class="greet-emojis">🌹 ❤️ 🌸</div>
+    <div class="greet-line"></div>
+  </div>
+
+  <!-- lock box -->
+  <div class="lock-box">
+    <span class="lock-icon">🔐</span>
+    <div class="lock-title">Xüsusi bir mesaj var</div>
+    <div class="lock-sub">açarı daxil et</div>
+    <div class="lock-input-wrap">
+      <input class="lock-input" id="lockInput" type="password" placeholder="açarı yaz..." autocomplete="off" />
+    </div>
+    <button class="lock-btn" onclick="checkPassword()">Aç &nbsp;→</button>
+    <div class="lock-error" id="lockError"></div>
+  </div>
+</div>
+
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<div class="cursor" id="cursor"></div>
+<div class="bg"></div>
+<div class="grid"></div>
+<div class="stars" id="stars"></div>
+<div class="petals" id="petals"></div>
+<div class="particles" id="particles"></div>
+
+<div class="scene">
+  <div class="card">
+    <div class="card-inner">
+
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="t-label">ulker_8mart_2026.exe</span>
+      </div>
+
+      <div class="date">8 · Mart · 2026</div>
+
+      <div class="emoji-row">🌹 🌸 ❤️ 🌹 🌸</div>
+
+      <div class="name">Ülkər</div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-dot">◆</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="message">
+        Bəzən ən gözəl şeylər sadə sözlərlə ifadə olunur. 🌸<br>
+        Sən <strong>hər alqoritmdən mürəkkəb</strong>, ❤️<br>
+        hər dizayndan <strong>gözəlsən.</strong> 🌹<br>
+        Bu gün sənin günündür — <strong>mübarək olsun.</strong> 🌸❤️
+      </div>
+
+      <div class="code">
+        <span class="cm">// 2026 — Xüsusi bir gün 🌷</span><br>
+        <span class="ck">const</span> <span class="cv">ulker</span> = {<br>
+        &nbsp;&nbsp;<span class="cn">gözəl</span>: <span class="cs">true</span>, <span class="cm">// şübhəsiz</span><br>
+        &nbsp;&nbsp;<span class="cn">istedadlı</span>: <span class="cs">true</span>,<br>
+        &nbsp;&nbsp;<span class="cn">unudulmaz</span>: <span class="cs">"həmişə"</span> 🌹<br>
+        };<br>
+        <span class="ck">→</span> <span class="cs">"8 Mart mübarək, Ülkər!"</span><br>
+        <span class="cm-farrux">// sevgilərlə, Fərrux 🌹❤️</span><span class="blink">_</span>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>🌸 xoşbəxtlik yüklənir</span>
+          <span>100%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="footer">🌹 sevgilərlə, Fərrux ❤️ · 8 mart 2026 🌸</div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Password check
+  function launchConfetti() {
+    const container = document.getElementById('confettiContainer');
+    const emojis = ['🌹','🌸','❤️','🌷','✨','💫','🎊','🌺','💕'];
+    const colors = ['#e82040','#ff6080','#ffffff','#ffb0c0','#ff8090'];
+    for (let i = 0; i < 80; i++) {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        const useEmoji = Math.random() > 0.4;
+        if (useEmoji) {
+          el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+          el.style.width = 'auto'; el.style.height = 'auto';
+        } else {
+          el.style.background = colors[Math.floor(Math.random() * colors.length)];
+          el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          el.style.width = (6 + Math.random() * 8) + 'px';
+          el.style.height = (6 + Math.random() * 8) + 'px';
+        }
+        el.style.left = (Math.random() * 100) + '%';
+        el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        el.style.animationDelay = '0s';
+        container.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }, i * 30);
+    }
+  }
+
+  function checkPassword() {
+    const val = document.getElementById('lockInput').value.trim();
+    const err = document.getElementById('lockError');
+    if (val === 'ülkər88/65' || val === 'Ülkər88/65' || val === 'ulker88/65') {
+      launchConfetti();
+      const ls = document.getElementById('lockScreen');
+      ls.classList.add('success');
+      setTimeout(() => ls.remove(), 700);
+    } else {
+      err.textContent = '❌ Açar yanlışdır, yenidən cəhd et';
+      err.classList.remove('shake');
+      void err.offsetWidth;
+      err.classList.add('shake');
+      document.getElementById('lockInput').value = '';
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+
+  // Stars — ağ rəngdə, qırmızı arxa fona uyğun
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 1;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      width:${size}px; height:${size}px;
+      animation-duration:${2+Math.random()*5}s;
+      animation-delay:${Math.random()*6}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // Petals — gül və çiçək emojiləri, say artırıldı
+  const petalsEl = document.getElementById('petals');
+  const petalList = ['🌹','🌸','🌷','❤️','🌸','🌹','❤️','🌷'];
+  for (let i = 0; i < 23; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalList[Math.floor(Math.random() * petalList.length)];
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      font-size:${0.8+Math.random()*1}rem;
+      animation-duration:${7+Math.random()*9}s;
+      animation-delay:${Math.random()*12}s;
+    `;
+    petalsEl.appendChild(p);
+  }
+
+  // Particles
+  const partEl = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${30+Math.random()*60}%;
+      animation-duration:${3+Math.random()*5}s;
+      animation-delay:${Math.random()*8}s;
+      width:${1+Math.random()*3}px;
+      height:${1+Math.random()*3}px;
+    `;
+    partEl.appendChild(p);
+  }
+</script>
+</body>
+</html>
